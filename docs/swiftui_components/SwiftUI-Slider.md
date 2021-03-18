@@ -1,8 +1,8 @@
 ---
 layout: default
-title: List
+title: Slider
 parent: SwiftUI's components
-nav_order: 1
+nav_order: 6
 ---
 
 ```swift

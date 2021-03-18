@@ -1,8 +1,8 @@
 ---
 layout: default
-title: List
+title: Image
 parent: SwiftUI's components
-nav_order: 1
+nav_order: 13
 ---
 
 ```swift
