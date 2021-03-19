@@ -5,78 +5,146 @@ parent: SwiftUI's components
 nav_order: 1
 ---
 
-```swift
-struct SongRow: View {
-    var song: Song
-    @Binding var isPlaying: Bool
+Khởi tạo một List với các cell static
 
+```swift
+struct Bookcase: View {
+    
     var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(song.name).bold()
-                Text(song.artist.name)
+        List {
+            Text("Harry Potter")
+            Text("The Victory Garden")
+            Text("Dragons of Autumn Twilight")
+        }
+    }
+}
+```
+
+Tạo struct cho các cell của List, ở đây cần kế thừa Identifiable để định danh các cell
+
+```swift
+struct Book: Identifiable {
+    let id: UUID = UUID()
+    let name: String
+}
+```
+
+Khởi tạo mảng data và đưa vào List
+
+```swift
+struct Book: Identifiable {
+    let id: UUID = UUID()
+    let name: String
+}
+
+struct Bookcase: View {
+    private let books: [Book] = [Book(name: "Harry Potter"),
+                                 Book(name: "The Victory Garden"),
+                                 Book(name: "Dragons of Autumn Twilight")]
+    
+    var body: some View {
+        List(books) { book in
+            Text(book.name)
+        }
+    }
+}
+```
+
+Hoặc có thể dùng ForEach như sau
+
+```swift
+struct Bookcase: View {
+    private let books: [Book] = [Book(name: "Harry Potter"),
+                                 Book(name: "The Victory Garden"),
+                                 Book(name: "Dragons of Autumn Twilight")]
+    
+    var body: some View {
+        List {
+            ForEach(books) { book in
+                Text(book.name)
             }
-            Spacer()
-            Button(
-                action: { self.isPlaying.toggle() },
-                label: {
-                    if isPlaying {
-                        PauseIcon()
-                    } else {
-                        PlayIcon()
+        }
+    }
+}
+```
+
+Tạo List với các Section khác nhau
+
+```swift
+struct Book: Identifiable {
+    let id: UUID = UUID()
+    let name: String
+}
+
+struct BookType: Identifiable {
+    let id: UUID = UUID()
+    let type: String
+    let books: [Book]
+}
+
+struct Bookcase: View {
+    private let bookTypes: [BookType] = [BookType(type: "Action", books: [Book(name: "Harry Potter"),
+                                                                          Book(name: "The Victory Garden"),
+                                                                          Book(name: "Dragons of Autumn Twilight")]),
+                                         BookType(type: "Romantic", books: [Book(name: "Harry Potter"),
+                                                                            Book(name: "The Victory Garden"),
+                                                                            Book(name: "Dragons of Autumn Twilight")]),
+                                         BookType(type: "Adventure", books: [Book(name: "Harry Potter"),
+                                                                             Book(name: "The Victory Garden"),
+                                                                             Book(name: "Dragons of Autumn Twilight")])]
+    
+    var body: some View {
+        List {
+            ForEach(bookTypes) { type in
+                Section(header: Text(type.type), content: {
+                    ForEach(type.books) { book in
+                        Text(book.name)
                     }
-                }
-            )
+                })
+            }
         }
     }
 }
 ```
 
-Co the tach phan cac label cua button ra nhu duoi
+Header, Footer của Section có thể tách ra như sau
 
 ```swift
-private extension SongRow {
-    func makeButtonLabel() -> some View {
-        if isPlaying {
-            return AnyView(PauseIcon())
-        } else {
-            return AnyView(PlayIcon())
-        }
-    }
-}
-```
-
-Chỗ này phải return AnyView vì thằng PauseIcon và PlayIcon khác type nhau
-
-Có một cách khác để xử lý vấn đề trên như sau:
-
-```swift
-private extension SongRow {
-    @ViewBuilder func makeButtonLabel() -> some View {
-        if isPlaying {
-            PauseIcon()
-        } else {
-            PlayIcon()
-        }
-    }
-}
-```
-
-Với ViewBuilder thì ta không cần phải dùng AnyView nữa
-
-Lúc này có thể call như thằng
-
-```swift
-struct SongRow: View {
-    ...
+struct BookHeader: View {
+    let title: String
 
     var body: some View {
         HStack {
-            ...
-            Button(
-                action: { self.isPlaying.toggle() },
-                label: { makeButtonLabel() }
-            )
+            Text("Book")
+            Text(title)
+        }
+    }
+}
+```
+
+Cho struct vừa tạo vào Header của Section là được
+
+```swift
+struct Bookcase: View {
+    private let bookTypes: [BookType] = [BookType(type: "Action", books: [Book(name: "Harry Potter"),
+                                                                          Book(name: "The Victory Garden"),
+                                                                          Book(name: "Dragons of Autumn Twilight")]),
+                                         BookType(type: "Romantic", books: [Book(name: "Harry Potter"),
+                                                                            Book(name: "The Victory Garden"),
+                                                                            Book(name: "Dragons of Autumn Twilight")]),
+                                         BookType(type: "Adventure", books: [Book(name: "Harry Potter"),
+                                                                             Book(name: "The Victory Garden"),
+                                                                             Book(name: "Dragons of Autumn Twilight")])]
+    
+    var body: some View {
+        List {
+            ForEach(bookTypes) { type in
+                Section(header: BookHeader(title: type.type), content: {
+                    ForEach(type.books) { book in
+                        Text(book.name)
+                    }
+                })
+            }
         }
     }
 }
