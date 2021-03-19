@@ -5,7 +5,8 @@ parent: SwiftUI's components
 nav_order: 1
 ---
 
-Khởi tạo một List với các cell static
+Là component đối ứng với TableView của UIKit, List cũng có cell, section, header, footer giống với TableView  
+Đầu tiên chúng ta sẽ khởi tạo một static List
 
 ```swift
 struct Bookcase: View {
@@ -20,7 +21,8 @@ struct Bookcase: View {
 }
 ```
 
-Tạo struct cho các cell của List, ở đây cần kế thừa Identifiable để định danh các cell
+Tiếp theo chúng ta sẽ cùng làm một dynamic List  
+Để tạo dynamic List chúng ta cần tạo struct cho các cell của List, ở đây cần kế thừa Identifiable để định danh các cell
 
 ```swift
 struct Book: Identifiable {
@@ -32,11 +34,6 @@ struct Book: Identifiable {
 Khởi tạo mảng data và đưa vào List
 
 ```swift
-struct Book: Identifiable {
-    let id: UUID = UUID()
-    let name: String
-}
-
 struct Bookcase: View {
     private let books: [Book] = [Book(name: "Harry Potter"),
                                  Book(name: "The Victory Garden"),
