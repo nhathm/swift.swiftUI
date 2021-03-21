@@ -24,4 +24,29 @@ struct ContentView: View {
 }
 ```
 TextField cũng sẽ có Placeholder giống UITextField, bên cạnh đấy TextField cũng có 2 callback là onEditingChanged, onCommit.  
-Trong đấy thì onEditingChanged sẽ được gọi khi TextField bắt đầu hoặc kết thúc editing, onCommit được gọi khi tap vào Return.
+Trong đấy thì onEditingChanged sẽ được gọi khi TextField bắt đầu hoặc kết thúc editing, onCommit được gọi khi tap vào Return.  
+  
+Tiếp theo chúng ta sẽ cùng tìm hiểu về TextField formatters. TextField sẽ sử dụng Formatter được chọn để convert giữa input của user và định dạng của value.
+
+```swift
+extension NumberFormatter {
+    static var decimal: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter
+    }
+}
+
+struct ContentView: View {
+    @State private var price: Int = 99
+    
+    var body: some View {
+        TextField("decimal number",
+                  value: $price,
+                  formatter: NumberFormatter.decimal
+        )
+    }
+}
+```
+
+Trong trường hợp Formatter không thể convert input của user thì value sẽ không được thay đổi.
