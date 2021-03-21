@@ -4,7 +4,6 @@ title: List
 parent: SwiftUI's components
 nav_order: 1
 ---
-
 Là component đối ứng với TableView của UIKit, List cũng có cell, section, header, footer giống với TableView  
 Đầu tiên chúng ta sẽ khởi tạo một static List
 
@@ -122,18 +121,7 @@ struct BookHeader: View {
 Cho struct vừa tạo vào Header của Section là được
 
 ```swift
-struct Bookcase: View {
-    private let bookTypes: [BookType] = [BookType(type: "Action", books: [Book(name: "Harry Potter"),
-                                                                          Book(name: "The Victory Garden"),
-                                                                          Book(name: "Dragons of Autumn Twilight")]),
-                                         BookType(type: "Romantic", books: [Book(name: "Harry Potter"),
-                                                                            Book(name: "The Victory Garden"),
-                                                                            Book(name: "Dragons of Autumn Twilight")]),
-                                         BookType(type: "Adventure", books: [Book(name: "Harry Potter"),
-                                                                             Book(name: "The Victory Garden"),
-                                                                             Book(name: "Dragons of Autumn Twilight")])]
-    
-    var body: some View {
+var body: some View {
         List {
             ForEach(bookTypes) { type in
                 Section(header: BookHeader(title: type.type), content: {
@@ -144,5 +132,26 @@ struct Bookcase: View {
             }
         }
     }
-}
 ```
+
+Với List trong SwiftUI thì ở các cell sẽ luôn có các separator line, để loại bỏ các line đấy đi thì cần set lại inset và background color cho cell
+
+```swift
+var body: some View {
+        List {
+            ForEach(bookTypes) { type in
+                Section(header: BookHeader(title: type.type), content: {
+                    ForEach(type.books) { book in
+                        Text(book.name)
+                            .listRowInsets(EdgeInsets(top: -1, leading: -1, bottom: -1, trailing: -1))
+                            .background(Color.white)
+                    }
+                })
+            }
+        }
+        .environment(\.defaultMinListRowHeight, 0)
+    }
+```
+
+```.environment(\.defaultMinListRowHeight, 0)``` dùng để set lại chiều cao nhỏ nhất mặc định cho cell, nếu không set thì nó sẽ là 49.  
+Bạn chỉ có thể ẩn separator line khi chiều cao cell của bạn bằng hoặc lớn hơn defaultMinListRowHeight của cell.
