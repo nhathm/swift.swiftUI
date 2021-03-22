@@ -5,79 +5,109 @@ parent: SwiftUI's components
 nav_order: 13
 ---
 
-```swift
-struct SongRow: View {
-    var song: Song
-    @Binding var isPlaying: Bool
+Để một image vào asset của bạn và hiển thị như sau
 
+```swift
+struct ImageGuide: View {
+    var body: some View {
+        Image("tree") // "tree" is name of your image in asset
+    }
+}
+```
+![Tux, the Linux mascot](/assets/images/imageBasic.png)
+Khi hiển thị một image trong asset bằng Image thì mặc định kích thước của Image view sẽ bằng với kích thước gốc của image. Bây giờ chúng ta sẽ thử set frame cho Image
+
+```swift
+struct ImageGuide: View {
+    var body: some View {
+        Image("tree")
+            .border(Color.orange)
+            .frame(width: 300, height: 300)
+            .border(Color.blue)
+    }
+}
+```
+![Tux, the Linux mascot](/assets/images/imageBorder.png)
+Bạn sẽ thấy frame modifier không thể thay đổi được kích thước của Image, bởi vì Image sẽ tự set default kích thước bằng cách tính source bitmap. Chúng ta có thể thay đổi kích thước của nó bằng cách sử dụng modifier resizable như sau
+
+```swift
+struct ImageGuide: View {
+    var body: some View {
+        Image("tree")
+            .resizable()
+    }
+}
+```
+![Tux, the Linux mascot](/assets/images/imageResizable.png)
+Modifier resizable sẽ làm cho Image fill tất cả các vùng trống mà không giữ aspect ratio. Để Image giữ lại aspect ratio chúng ta có thể sử dụng modifier scaleToFit
+
+```swift
+struct ImageGuide: View {
+    var body: some View {
+        Image("tree")
+            .resizable()
+            .scaledToFit()
+    }
+}
+```
+![Tux, the Linux mascot](/assets/images/imageScaledToFit.png)
+Bạn có thể nhận thấy rằng Image sẽ bị làm mờ đi một ít khi bạn cố gắng resize nó lớn hơn kích thước gốc. Nó là do SwiftUI đã tự nội suy hình ảnh khi bạn cố kéo giãn bức ảnh ra nhiều lần.  
+Bạn có thể loại bỏ phép nội suy này bằng cách sử dụng modifier interpolation như sau
+
+```swift
+struct ImageGuide: View {
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
-                Text(song.name).bold()
-                Text(song.artist.name)
-            }
-            Spacer()
-            Button(
-                action: { self.isPlaying.toggle() },
-                label: {
-                    if isPlaying {
-                        PauseIcon()
-                    } else {
-                        PlayIcon()
-                    }
-                }
-            )
+            Image("tree")
+                .resizable()
+                .scaledToFit()
+            Image("tree")
+                .interpolation(.none)
+                .resizable()
+                .scaledToFit()
         }
     }
 }
 ```
-
-Co the tach phan cac label cua button ra nhu duoi
-
-```swift
-private extension SongRow {
-    func makeButtonLabel() -> some View {
-        if isPlaying {
-            return AnyView(PauseIcon())
-        } else {
-            return AnyView(PlayIcon())
-        }
-    }
-}
-```
-
-Chỗ này phải return AnyView vì thằng PauseIcon và PlayIcon khác type nhau
-
-Có một cách khác để xử lý vấn đề trên như sau:
+![Tux, the Linux mascot](/assets/images/imageInterpolation.png)
+SwiftUI có 2 cách để thay đổi kích thước của Image. Cách thứ 1 được gọi là stretching như chúng ta đã làm phía trên. Cách thứ 2 được gọi là tiled như phía dưới đây
 
 ```swift
-private extension SongRow {
-    @ViewBuilder func makeButtonLabel() -> some View {
-        if isPlaying {
-            PauseIcon()
-        } else {
-            PlayIcon()
-        }
-    }
-}
-```
-
-Với ViewBuilder thì ta không cần phải dùng AnyView nữa
-
-Lúc này có thể call như thằng
-
-```swift
-struct SongRow: View {
-    ...
-
+struct ImageGuide: View {
     var body: some View {
-        HStack {
-            ...
-            Button(
-                action: { self.isPlaying.toggle() },
-                label: { makeButtonLabel() }
+        Image("tree")
+            .resizable(resizingMode: .tile)
+            .edgesIgnoringSafeArea(.all)
+    }
+}
+```
+![Tux, the Linux mascot](/assets/images/imageResizingMode.png)
+SwiftUI sẽ duplicate các bức ảnh theo dạng ô gạch, bạn có thể dùng cách này để fill cách vùng trống mà bạn muốn. Bạn cũng có thể chỉnh sửa kích thước vùng ảnh được duplicate bằng cách sử dụng capInsets như sau
+
+```swift
+struct ImageGuide: View {
+    var body: some View {
+        Image("tree")
+            .resizable(
+                capInsets: .init(
+                    top: 15,
+                    leading: 15,
+                    bottom: 15,
+                    trailing: 15
+                ),
+                resizingMode: .tile
             )
-        }
+    }
+}
+```
+![Tux, the Linux mascot](/assets/images/imageCapInsets.png)
+SwiftUI còn cho chúng ta được chọn cách render Image, một trong số đấy là original, nó sẽ loại bỏ tất cả các filter được add vào Image
+
+```swift
+struct ImageGuide: View {
+    var body: some View {
+        Image("tree")
+            .renderingMode(.original)
     }
 }
 ```
