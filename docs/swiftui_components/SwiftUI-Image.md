@@ -14,7 +14,8 @@ struct ImageGuide: View {
     }
 }
 ```
-![Tux, the Linux mascot](/assets/images/imageBasic.png)
+![Tux, the Linux mascot](../assets/images/imageBasic.png)  
+
 Khi hiển thị một image trong asset bằng Image thì mặc định kích thước của Image view sẽ bằng với kích thước gốc của image. Bây giờ chúng ta sẽ thử set frame cho Image
 
 ```swift
@@ -27,7 +28,8 @@ struct ImageGuide: View {
     }
 }
 ```
-![Tux, the Linux mascot](/assets/images/imageBorder.png)
+![Tux, the Linux mascot](../assets/images/imageBorder.png)  
+
 Bạn sẽ thấy frame modifier không thể thay đổi được kích thước của Image, bởi vì Image sẽ tự set default kích thước bằng cách tính source bitmap. Chúng ta có thể thay đổi kích thước của nó bằng cách sử dụng modifier resizable như sau
 
 ```swift
@@ -38,7 +40,8 @@ struct ImageGuide: View {
     }
 }
 ```
-![Tux, the Linux mascot](/assets/images/imageResizable.png)
+![Tux, the Linux mascot](../assets/images/imageResizable.png)  
+
 Modifier resizable sẽ làm cho Image fill tất cả các vùng trống mà không giữ aspect ratio. Để Image giữ lại aspect ratio chúng ta có thể sử dụng modifier scaleToFit
 
 ```swift
@@ -50,7 +53,8 @@ struct ImageGuide: View {
     }
 }
 ```
-![Tux, the Linux mascot](/assets/images/imageScaledToFit.png)
+![Tux, the Linux mascot](../assets/images/imageScaledToFit.png)  
+
 Bạn có thể nhận thấy rằng Image sẽ bị làm mờ đi một ít khi bạn cố gắng resize nó lớn hơn kích thước gốc. Nó là do SwiftUI đã tự nội suy hình ảnh khi bạn cố kéo giãn bức ảnh ra nhiều lần.  
 Bạn có thể loại bỏ phép nội suy này bằng cách sử dụng modifier interpolation như sau
 
@@ -69,7 +73,8 @@ struct ImageGuide: View {
     }
 }
 ```
-![Tux, the Linux mascot](/assets/images/imageInterpolation.png)
+![Tux, the Linux mascot](../assets/images/imageInterpolation.png)  
+
 SwiftUI có 2 cách để thay đổi kích thước của Image. Cách thứ 1 được gọi là stretching như chúng ta đã làm phía trên. Cách thứ 2 được gọi là tiled như phía dưới đây
 
 ```swift
@@ -81,7 +86,8 @@ struct ImageGuide: View {
     }
 }
 ```
-![Tux, the Linux mascot](/assets/images/imageResizingMode.png)
+![Tux, the Linux mascot](../assets/images/imageResizingMode.png)  
+
 SwiftUI sẽ duplicate các bức ảnh theo dạng ô gạch, bạn có thể dùng cách này để fill cách vùng trống mà bạn muốn. Bạn cũng có thể chỉnh sửa kích thước vùng ảnh được duplicate bằng cách sử dụng capInsets như sau
 
 ```swift
@@ -100,7 +106,8 @@ struct ImageGuide: View {
     }
 }
 ```
-![Tux, the Linux mascot](/assets/images/imageCapInsets.png)
+![Tux, the Linux mascot](../assets/images/imageCapInsets.png)  
+
 SwiftUI còn cho chúng ta được chọn cách render Image, một trong số đấy là original, nó sẽ loại bỏ tất cả các filter được add vào Image
 
 ```swift
