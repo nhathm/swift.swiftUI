@@ -42,7 +42,7 @@ struct ImageGuide: View {
 ```
 ![Tux, the Linux mascot](../assets/images/imageResizable.png)  
 
-Modifier resizable sẽ làm cho Image fill tất cả các vùng trống mà không giữ aspect ratio. Để Image giữ lại aspect ratio chúng ta có thể sử dụng modifier scaleToFit
+Modifier resizable sẽ làm cho Image fill tất cả các vùng trống mà không giữ aspect ratio. Để Image giữ lại aspect ratio chúng ta có thể sử dụng modifier ```.aspectRatio(contentMode: .fit)``` hoặc scaleToFit như sau
 
 ```swift
 struct ImageGuide: View {
@@ -82,7 +82,7 @@ struct ImageGuide: View {
     var body: some View {
         Image("tree")
             .resizable(resizingMode: .tile)
-            .edgesIgnoringSafeArea(.all)
+            .edgesIgnoringSafeArea(.all) // that modifier will make view ignore safe area
     }
 }
 ```
