@@ -15,7 +15,8 @@ struct ImageGuide: View {
 }
 
 ```
-![Image basic](imageBasic.png){:height="50%" width="50%" .centered-image}    
+
+![Image basic](imageBasic.png){:height="50%" width="50%" .centered-image .img-left}  
 
 Khi hiển thị một image trong asset bằng Image thì mặc định kích thước của Image view sẽ bằng với kích thước gốc của image. Bây giờ chúng ta sẽ thử set frame cho Image
 
@@ -30,7 +31,9 @@ struct ImageGuide: View {
 }
 ```
 
-![Image with border](imageBorder.png)  
+| Result      |
+| :---        |
+| ![Image with border](imageBorder.png) |
 
 Bạn sẽ thấy frame modifier không thể thay đổi được kích thước của Image, bởi vì Image sẽ tự set default kích thước bằng cách tính source bitmap. Chúng ta có thể thay đổi kích thước của nó bằng cách sử dụng modifier resizable như sau
 
