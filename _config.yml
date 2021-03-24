@@ -53,7 +53,7 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 
-logo: "/docs/assets/images/logo-gst.ico"
+logo: "/docs/assets/images/logo-gst-with-content.png"
 
 search_enabled: true
 
@@ -80,7 +80,7 @@ search:
   # Enable or disable the search button that appears in the bottom right corner of every page
   # Supports true or false (default)
   button: false
-
+heading_anchors: true
 # Aux links for the upper right navigation
 aux_links:
   "TechOver.io":
